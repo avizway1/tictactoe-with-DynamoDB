@@ -124,8 +124,11 @@ Create a file inside the code location provide file name as "config.ini" and add
 TableName = Games
 Region = ap-south-2
 
+Also, edit the config file and edit the config file and set region and endpoint based on your resources. Example mentioned below
 
-Also, edit the config file and edit the endpoint to "dynamodb.ap-south-2.amazonaws.com"
+[dynamodb]
+region=ap-south-2
+endpoint=dynamodb.ap-south-2.amazonaws.com
 
 Also, Dont forget to attach an IAM role, that has valid access to create a DynamoDB table. Also, While launching EC2 instance, Enable "metadata" to "V1 and v2" instead of only V2, as we are using metadata URL to obtain the temp credentials.
 
