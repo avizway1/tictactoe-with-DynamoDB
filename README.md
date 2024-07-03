@@ -6,16 +6,11 @@ Please use amazon Linux 2 OS.
 
 ### Install Development Tools and Dependencies
 
-Installs essential development tools and libraries needed for compiling and building software.
+Installs essential development tools and libraries needed for compiling and building software. Installs development headers and libraries for OpenSSL, bzip2, and libffi, required for Python.
+
 
 ```bash
 sudo yum groupinstall -y "Development Tools"
-```
-
-Installs development headers and libraries for OpenSSL, bzip2, and libffi, required for Python.
-
-
-```bash
 sudo yum install -y openssl-devel bzip2-devel libffi-devel
 ```
 
