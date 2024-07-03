@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <div style="padding-top: 10px;">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for msg in messages %}
+            <div class="alert alert-info text-center">
+                {{ msg }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <div class="text-center">
+            <h1>
+                <a href="/create">
+                    <button style="height: 75px; width: 200px; font-size: 40px;" class="btn btn-success">CREATE</button>
+                </a>
+            </h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h2><b>Pending Invitations</b></h2>
+                {% if invites == [] %}
+                <p>You currently have no invites.</p>
+                {% else %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="padding-right: 100px;">From</th>
+                            <th>Accept?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for invite in invites %}
+                        <tr>
+                            <td style="padding-right: 100px;">
+                                <div>{{ invite.hostId }}</div>
+                                <div>{{ invite.date }}</div>
+                            </td>
+                            <td>
+                                <form action="/accept={{ invite.gameId }}" method="post">
+                                    <button class="btn btn-primary" name="response" value="{{ invite.gameId }}">Accept</button>
+                                </form>
+                                <form action="/reject={{ invite.gameId }}" method="post">
+                                    <button class="btn btn-danger" name="response" value="{{ invite.gameId }}">Reject</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+
+            <div class="col-md-4">
+                <h2><b>Games In-Progress</b></h2>
+                {% if inprogress == [] %}
+                <p>You currently have no games in progress.</p>
+                {% else %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="padding-right: 125px;">Game</th>
+                            <th>Turn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ipGame in inprogress %}
+                        <tr>
+                            <td style="padding-right: 125px;">
+                                <a href="/game={{ ipGame.gameId }}">{{ ipGame.getOpposingPlayer(user) }}</a>
+                            </td>
+                            <td>{{ ipGame.turn }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+
+            <div class="col-md-4">
+                <h2><b>Recent History</b></h2>
+                {% if finished == [] %}
+                <p>You don't have any recent games.</p>
+                {% else %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="padding-right: 100px;">Opponent</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for game in finished %}
+                        <tr>
+                            <td style="padding-right: 100px;">
+                                <a href="/game={{ game.gameId }}">{{ game.getOpposingPlayer(user) }}</a>
+                            </td>
+                            <td>{{ game.getResult(user) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

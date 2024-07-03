@@ -1,0 +1,72 @@
+{% extends "board.html" %}
+{% block addon %}
+<script lang="text/javascript">
+    var gameRaw = '{{ gameJson|safe }}';
+    var game = JSON.parse(gameRaw);
+    var gameString = JSON.stringify(game);
+    var gameId = '{{ gameId }}';
+    var loadDate = new Date();
+    var interval;
+
+    if (game.status !== "FINISHED") {
+        interval = window.setInterval(checkChanged, 1000);
+    }
+
+    var xmlHttp;
+
+    function checkChanged() {
+        window.clearInterval(interval);
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = isChanged;
+        xmlHttp.open('GET', '/gameData=' + gameId, true);
+        xmlHttp.send(null);
+    }
+
+    function isChanged() {
+        if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status === 200) {
+                var latest = JSON.stringify(JSON.parse(xmlHttp.responseText));
+                var loaded = gameString;
+                if (latest !== loaded) {
+                    location.reload();
+                }
+            }
+            var currentDate = new Date();
+            var elapsedMs = currentDate.getTime() - loadDate.getTime();
+            if (elapsedMs < (5 * 60 * 1000)) {
+                interval = window.setInterval(checkChanged, 1000);
+            } else {
+                console.log('Stopping refresh after ' + elapsedMs + ' ms');
+            }
+        }
+    }
+</script>
+
+<div class="container">
+    <div class="alert alert-info" style="margin-top: 10px;">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                {{ msg }}
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="game-details">
+        <p><strong>Game ID:</strong> {{ gameId }}</p>
+        <p><strong>Opponent:</strong> {{ opponent }}</p>
+        <p><strong>Status:</strong> {{ status }}</p>
+        <p><strong>Turn:</strong> {{ turn }}</p>
+    </div>
+
+    {% if status == 'FINISHED' %}
+    <div class="play-again">
+        <form action="/play" method="post">
+            <input type="hidden" name="invitee" value="{{ opponent }}">
+            <button type="submit" class="btn btn-primary">Play Again!</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

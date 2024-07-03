@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="jumbotron text-center">
+        <div style="padding-top: 10px;">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                <div class="alert alert-info">
+                    {{ msg }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+        
+        <div style="padding-top: 10px;">
+            <form class="test" action="/play" method="post">
+                <div class="form-group">
+                    <label for="invitee">Choose an Opponent:</label>
+                    <input type="text" id="invitee" name="invitee" placeholder="e.g. John" class="form-control customizedInput">
+                </div>
+                <button type="submit" class="btn btn-primary customizedInput">Create Game!</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

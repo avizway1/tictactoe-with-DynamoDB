@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron text-center">
+    <div class="container">
+        <div style="padding-top: 20px;">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                <div class="alert alert-info">
+                    {{ msg }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+        
+        <h1>
+            <a href="/table" class="btn btn-success btn-lg" style="width: 500px;">
+                CREATE TABLE
+            </a>
+        </h1>
+        
+        <p class="text-muted">
+            Note: Creating a table may take a few moments as it needs to become active.
+        </p>
+    </div>
+</div>
+{% endblock %}
