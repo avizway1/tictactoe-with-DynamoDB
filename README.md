@@ -1,12 +1,10 @@
 Please use amazon Linux 2 OS. 
 
-```markdown
 # Installation Steps
 
 ### Install Development Tools and Dependencies
 
 Installs essential development tools and libraries needed for compiling and building software.
-
 
 ```bash
 sudo yum groupinstall -y "Development Tools"
