@@ -3,6 +3,7 @@ In this project we are working to develop a simple Tic-Tac-Toe game application 
 1. **AWS EC2 Instance**: This is where the application will run. We're using an Amazon Linux 2 EC2 instance to host the application.
 2. **AWS DynamoDB**: This is used as the backend database to store game state and user data. DynamoDB is a NoSQL database service provided by AWS, which is fully managed and designed for high-performance applications.
 3. **Python Application**: The application is written in Python, using Flask for the web framework and Boto for interacting with DynamoDB.
+4. **IAM Role**: IAM role for secure connection between ec2 to dynamoDB.
 
 ### Project Structure and Components
 
