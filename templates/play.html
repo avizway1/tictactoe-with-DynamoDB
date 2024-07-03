@@ -1,19 +1,17 @@
 {% extends "board.html" %}
 {% block addon %}
 <script lang="text/javascript">
+    // Your existing JavaScript code remains unchanged
     var gameRaw = '{{ gameJson|safe }}';
     var game = JSON.parse(gameRaw);
     var gameString = JSON.stringify(game);
     var gameId = '{{ gameId }}';
     var loadDate = new Date();
     var interval;
-
     if (game.status !== "FINISHED") {
         interval = window.setInterval(checkChanged, 1000);
     }
-
     var xmlHttp;
-
     function checkChanged() {
         window.clearInterval(interval);
         xmlHttp = new XMLHttpRequest();
@@ -21,7 +19,6 @@
         xmlHttp.open('GET', '/gameData=' + gameId, true);
         xmlHttp.send(null);
     }
-
     function isChanged() {
         if (xmlHttp.readyState === 4) {
             if (xmlHttp.status === 200) {
@@ -42,8 +39,45 @@
     }
 </script>
 
-<div class="container">
-    <div class="alert alert-info" style="margin-top: 10px;">
+<style>
+    .game-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .game-alert {
+        margin-bottom: 2rem;
+        border-radius: 5px;
+    }
+    .game-details {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 5px;
+        margin-bottom: 2rem;
+    }
+    .game-details p {
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+    .game-details strong {
+        color: #007bff;
+    }
+    .play-again {
+        text-align: center;
+    }
+    .btn-play-again {
+        padding: 0.75rem 2rem;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+</style>
+
+<div class="game-container">
+    <div class="alert alert-info game-alert">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for msg in messages %}
@@ -52,19 +86,17 @@
         {% endif %}
         {% endwith %}
     </div>
-
     <div class="game-details">
         <p><strong>Game ID:</strong> {{ gameId }}</p>
         <p><strong>Opponent:</strong> {{ opponent }}</p>
         <p><strong>Status:</strong> {{ status }}</p>
         <p><strong>Turn:</strong> {{ turn }}</p>
     </div>
-
     {% if status == 'FINISHED' %}
     <div class="play-again">
         <form action="/play" method="post">
             <input type="hidden" name="invitee" value="{{ opponent }}">
-            <button type="submit" class="btn btn-primary">Play Again!</button>
+            <button type="submit" class="btn btn-primary btn-play-again">Play Again!</button>
         </form>
     </div>
     {% endif %}
