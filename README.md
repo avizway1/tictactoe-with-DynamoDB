@@ -1,39 +1,93 @@
-# Python 2.7 and Dependencies Installation Guide
+Please use amazon Linux 2 OS. 
 
-This guide provides step-by-step instructions for installing Python 2.7 and its dependencies on a Linux system, specifically for CentOS/RHEL-based distributions using yum package manager.
+```markdown
+# Installation Steps
 
-## Installation Steps
+### Install Development Tools and Dependencies
+
+Installs essential development tools and libraries needed for compiling and building software.
+
 
 ```bash
-# 1. Install Development Tools and Dependencies
 sudo yum groupinstall -y "Development Tools"
-sudo yum install -y openssl-devel bzip2-devel libffi-devel
+```
 
-# 2. Download and Extract Python 2.7.18
+Installs development headers and libraries for OpenSSL, bzip2, and libffi, required for Python.
+
+
+```bash
+sudo yum install -y openssl-devel bzip2-devel libffi-devel
+```
+
+
+### Install Python 2.7.18
+
+Downloads Python 2.7.18, extracts it, configures the build with optimizations enabled, and installs it without replacing the system-provided Python.
+
+
+```bash
 cd /usr/src
 sudo wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
 sudo tar xzf Python-2.7.18.tgz
-
-# 3. Configure and Install Python 2.7.18
 cd Python-2.7.18
 sudo ./configure --enable-optimizations
 sudo make altinstall
+```
 
-# 4. Verify Python Installation
+Verifies the installed Python version.
+
+
+```bash
 python2.7 -V
+```
 
-# 5. Install pip (Python Package Installer)
+### Install pip for Python 2.7
+
+Downloads and installs pip for Python 2.7.
+
+
+```bash
 wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
 python get-pip.py
+```
 
-# 6. Install Required Python Packages
+### Install Python Packages
+
+Installs Flask, Boto (for AWS SDK), and configparser Python packages using pip.
+
+
+```bash
 pip install Flask
 pip install boto
 pip install configparser
+```
 
-# 7. Install Git
+### Install Git
+
+Installs Git, a version control system.
+
+```bash
 yum install git -y
+```
 
-# 8. Clone a GitHub Repository
+### Clone the TicTacToe Project Repository
+
+Clones the TicTacToe project repository from GitHub into the `/home/ec2-user/` directory.
+
+```bash
 cd /home/ec2-user/
 git clone https://github.com/avizway1/tictactoe-with-DynamoDB.git
+```
+
+Create a file inside the code location provide file name as "config.ini" and add below entry. make sure to change the region accordingly.
+
+[Settings]
+TableName = Games
+Region = ap-south-2
+
+
+Also, edit the config file and edit the endpoint to "dynamodb.ap-south-2.amazonaws.com"
+
+Also, Dont forget to attach an IAM role, that has valid access to create a DynamoDB table.
+
+```
