@@ -127,8 +127,7 @@ Region = ap-south-2
 
 Also, edit the config file and edit the endpoint to "dynamodb.ap-south-2.amazonaws.com"
 
-Also, Dont forget to attach an IAM role, that has valid access to create a DynamoDB table.
-
+Also, Dont forget to attach an IAM role, that has valid access to create a DynamoDB table. Also, While launching EC2 instance, Enable "metadata" to "V1 and v2" instead of only V2, as we are using metadata URL to obtain the temp credentials.
 
 Once all content is ready, Navigate to the project location and run below command. 
 #make sure to open required port (5000) in ec2 security group
